@@ -1,43 +1,60 @@
 #ifndef PHILO_H
 #define PHILO_H
 
-#include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <pthread.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <string.h>
 
-	// number_of_philosophers time_to_die time_to_eat
-	// time_to_sleep [number_of_times_each_philosopher_must_eat]
-
-typedef struct	s_data
+typedef struct s_philo
 {
-	int n_philo;
-	int time_die;
-	int time_eat;
-	int time_sleep;
-	int n_times_eat;
-}	t_data;
-
-typedef struct	s_philo
-{
-	int id;
-	int	alive;
-	int	left_fork;
-	int	right_fork;
-	pthread_t	thread;
-	struct s_data *data;
+	int				id;
+	int				meals_eaten;
+	long long		last_meal_time;
+	pthread_mutex_t	meal_mutex;
+	struct s_shared	*shared;
 }	t_philo;
 
+typedef struct s_shared
+{
+	int				num_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat_count;
+	int				has_must_eat;
+	int				simulation_stop;
+	long long		start_time;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	printf_mutex;
+	pthread_mutex_t	stop_mutex;
+	t_philo			*philos;
+}	t_shared;
+
+
+// init.c
+int	init_shared(t_shared *shared);
+void	init_philosophers(t_shared *shared);
+
+// monitor.c
+void	*monitor_routine(void *arg);
+int	check_stop(t_shared *shared);
+int	check_death(t_shared *shared);
+int	check_all_ate(t_shared *shared);
+
+// philo.c
+void	ft_philo_eat(t_philo *philo);
+void	*philo_routine(void *arg);
+
+// time.c
+long long	get_current_time(void);
+void	precise_sleep(int ms);
 
 // utils.c
-int ft_putstr_fd(char *s, int fd);
+void	print_message(t_shared *shared, int philo_id, char *message);
+int	is_valid_number(const char *str);
 int	ft_atoi(const char *str);
-
-// data.c
-int check_args(int ac, char **av);
-void	init_data(t_data *data, int ac, char **av);
-
-// philo threads
-void *philo_routine(void *arg);
 
 #endif

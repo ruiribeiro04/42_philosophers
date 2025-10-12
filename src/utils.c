@@ -1,36 +1,67 @@
-#include "../includes/philo.h"
+#include "philo.h"
 
-int ft_putstr_fd(char *s, int fd)
+void	print_message(t_shared *shared, int philo_id, char *message)
 {
-	int i;
+	long long	timestamp;
+
+	pthread_mutex_lock(&shared->stop_mutex);
+	if (!shared->simulation_stop)
+	{
+		pthread_mutex_unlock(&shared->stop_mutex);
+		pthread_mutex_lock(&shared->printf_mutex);
+		timestamp = get_current_time() - shared->start_time;
+		printf("%lld %d %s\n", timestamp, philo_id, message);
+		pthread_mutex_unlock(&shared->printf_mutex);
+	}
+	else
+		pthread_mutex_unlock(&shared->stop_mutex);
+}
+
+int	is_valid_number(const char *str)
+{
+	int	i;
 
 	i = 0;
-	while (s[i])
-		write(fd, &s[i++], 1);
-	return (i);
+	if (!str || str[0] == '\0')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+
+long long	get_current_time(void)
+{
+	struct timeval	tv;
+	
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL));
+}
+
+void	precise_sleep(int ms)
+{
+	long long	start_time;
+
+	start_time = get_current_time();
+	while ((get_current_time() - start_time) < ms)
+	usleep(100);
 }
 
 int	ft_atoi(const char *str)
 {
-	int	i;
-	int	signal;
 	int	result;
+	int	i;
 
-	i = 0;
-	signal = 1;
 	result = 0;
-	while ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			signal *= -1;
-		i++;
-	}
+	i = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
-	return (signal * result);
+	return (result);
 }
