@@ -1,12 +1,24 @@
-#ifndef PHILO_H
-#define PHILO_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/12 02:11:31 by ruiferna          #+#    #+#             */
+/*   Updated: 2025/10/12 02:11:31 by ruiferna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <string.h>
+#ifndef PHILO_H
+# define PHILO_H
+
+# include <pthread.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_philo
 {
@@ -15,7 +27,7 @@ typedef struct s_philo
 	long long		last_meal_time;
 	pthread_mutex_t	meal_mutex;
 	struct s_shared	*shared;
-}	t_philo;
+}					t_philo;
 
 typedef struct s_shared
 {
@@ -31,30 +43,30 @@ typedef struct s_shared
 	pthread_mutex_t	printf_mutex;
 	pthread_mutex_t	stop_mutex;
 	t_philo			*philos;
-}	t_shared;
-
+}					t_shared;
 
 // init.c
-int	init_shared(t_shared *shared);
-void	init_philosophers(t_shared *shared);
+int					init_shared(t_shared *shared);
+void				init_philosophers(t_shared *shared);
 
 // monitor.c
-void	*monitor_routine(void *arg);
-int	check_stop(t_shared *shared);
-int	check_death(t_shared *shared);
-int	check_all_ate(t_shared *shared);
+void				*monitor_routine(void *arg);
+int					check_stop(t_shared *shared);
+int					check_death(t_shared *shared);
+int					check_all_ate(t_shared *shared);
 
 // philo.c
-void	ft_philo_eat(t_philo *philo);
-void	*philo_routine(void *arg);
+void				ft_philo_eat(t_philo *philo);
+void				*philo_routine(void *arg);
 
 // time.c
-long long	get_current_time(void);
-void	precise_sleep(int ms);
+long long			get_current_time(void);
+void				precise_sleep(int ms);
 
 // utils.c
-void	print_message(t_shared *shared, int philo_id, char *message);
-int	is_valid_number(const char *str);
-int	ft_atoi(const char *str);
+void				print_message(t_shared *shared, int philo_id,
+						char *message);
+int					is_valid_number(const char *str);
+int					ft_atoi(const char *str);
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/12 02:10:52 by ruiferna          #+#    #+#             */
+/*   Updated: 2025/10/12 02:11:52 by ruiferna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	print_message(t_shared *shared, int philo_id, char *message)
@@ -33,11 +45,10 @@ int	is_valid_number(const char *str)
 	return (1);
 }
 
-
 long long	get_current_time(void)
 {
 	struct timeval	tv;
-	
+
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL));
 }
@@ -48,7 +59,7 @@ void	precise_sleep(int ms)
 
 	start_time = get_current_time();
 	while ((get_current_time() - start_time) < ms)
-	usleep(100);
+		usleep(100);
 }
 
 int	ft_atoi(const char *str)

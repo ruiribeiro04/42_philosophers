@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/12 02:10:44 by ruiferna          #+#    #+#             */
+/*   Updated: 2025/10/12 02:10:45 by ruiferna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	parse_arguments(int argc, char **argv, t_shared *shared)
 {
 	if (argc != 5 && argc != 6)
 	{
-		printf("Usage: %s number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_must_eat]\n",
+		printf("Usage:
+			%s number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_must_eat]\n",
 			argv[0]);
 		return (0);
 	}
