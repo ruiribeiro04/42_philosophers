@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:23:57 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/14 10:24:25 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:51:11 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	parse_arguments(int argc, char **argv, t_shared *shared)
 	if (argc != 5 && argc != 6)
 	{
 		printf("Usage: %s number_of_philosophers", argv[0]);
-		printf(" time_to_die time_to_eat time_to_sleep [number_of_times_must_eat]\n");
+		printf(" time_to_die time_to_eat ");
+		printf("time_to_sleep [number_of_times_must_eat]\n");
 		return (0);
 	}
 	if (!set_basic_args(argv, shared))

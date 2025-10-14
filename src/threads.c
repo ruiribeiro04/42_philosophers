@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:26:12 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/14 10:26:41 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:51:47 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	allocate_threads(t_shared *shared, pthread_t **threads)
 }
 
 void	start_philosophers(t_shared *shared, pthread_t *threads,
-					pthread_t *monitor)
+		pthread_t *monitor)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < shared->num_philos)
@@ -35,9 +35,9 @@ void	start_philosophers(t_shared *shared, pthread_t *threads,
 }
 
 void	join_philosophers(t_shared *shared, pthread_t *threads,
-					pthread_t monitor)
+		pthread_t monitor)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < shared->num_philos)
