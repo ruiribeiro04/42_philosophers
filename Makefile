@@ -33,3 +33,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+tester: re
+	@git clone https://github.com/dantonik/42-philosophers-tester.git
+	@cd 42-philosophers-tester && ./test.sh

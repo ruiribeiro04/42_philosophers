@@ -6,30 +6,40 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 02:10:32 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/15 14:15:02 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:25:21 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static void	ft_pick_forks(t_philo *philo, int *first, int *second)
+{
+	int	left;
+	int	right;
+
+	left = philo->id - 1;
+	right = philo->id % philo->shared->num_philos;
+	if (philo->id % 2 == 0)
+	{
+		*first = left;
+		*second = right;
+	}
+	else
+	{
+		*first = right;
+		*second = left;
+	}
+}
+
 static int	ft_take_forks(t_philo *philo, int *first, int *second)
 {
-	int	left_fork;
-	int	right_fork;
-
-	left_fork = philo->id - 1;
-	right_fork = philo->id % philo->shared->num_philos;
-	*first = left_fork;
-	*second = right_fork;
-	if (*first > *second)
-	{
-		*first = right_fork;
-		*second = left_fork;
-	}
+	ft_pick_forks(philo, first, second);
 	pthread_mutex_lock(&philo->shared->forks[*first]);
 	ft_print_message(philo->shared, philo->id, "has taken a fork");
 	if (philo->shared->num_philos == 1)
 	{
+		while (!ft_check_stop(philo->shared))
+			usleep(1000);
 		pthread_mutex_unlock(&philo->shared->forks[*first]);
 		return (0);
 	}
@@ -66,12 +76,12 @@ void	*ft_philo_routine(void *arg)
 		ft_precise_sleep(50);
 	while (!ft_check_stop(philo->shared))
 	{
-		ft_print_message(philo->shared, philo->id, "is thinking");
 		ft_philo_eat(philo);
 		if (ft_check_stop(philo->shared))
 			break ;
 		ft_print_message(philo->shared, philo->id, "is sleeping");
 		ft_precise_sleep(philo->shared->time_to_sleep);
+		ft_print_message(philo->shared, philo->id, "is thinking");
 	}
 	return (NULL);
 }
