@@ -6,29 +6,29 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 02:10:47 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/12 02:10:48 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:03:58 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*monitor_routine(void *arg)
+void	*ft_monitor_routine(void *arg)
 {
 	t_shared	*shared;
 
 	shared = (t_shared *)arg;
-	while (!check_stop(shared))
+	while (!ft_check_stop(shared))
 	{
-		if (check_death(shared))
+		if (ft_check_death(shared))
 			break ;
-		if (check_all_ate(shared))
+		if (ft_check_all_ate(shared))
 			break ;
 		usleep(1000);
 	}
 	return (NULL);
 }
 
-int	check_stop(t_shared *shared)
+int	ft_check_stop(t_shared *shared)
 {
 	int	stop;
 
@@ -38,7 +38,7 @@ int	check_stop(t_shared *shared)
 	return (stop);
 }
 
-int	check_death(t_shared *shared)
+int	ft_check_death(t_shared *shared)
 {
 	int			i;
 	long long	current_time;
@@ -48,7 +48,7 @@ int	check_death(t_shared *shared)
 	while (i < shared->num_philos)
 	{
 		pthread_mutex_lock(&shared->philos[i].meal_mutex);
-		current_time = get_current_time();
+		current_time = ft_get_current_time();
 		time_since_meal = current_time - shared->philos[i].last_meal_time;
 		pthread_mutex_unlock(&shared->philos[i].meal_mutex);
 		if (time_since_meal > shared->time_to_die)
@@ -67,7 +67,7 @@ int	check_death(t_shared *shared)
 	return (0);
 }
 
-int	check_all_ate(t_shared *shared)
+int	ft_check_all_ate(t_shared *shared)
 {
 	int	i;
 	int	all_done;

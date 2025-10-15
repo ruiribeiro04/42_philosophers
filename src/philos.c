@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 02:10:32 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/12 02:12:22 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:15:02 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static int	ft_take_forks(t_philo *philo, int *first, int *second)
 		*second = left_fork;
 	}
 	pthread_mutex_lock(&philo->shared->forks[*first]);
-	print_message(philo->shared, philo->id, "has taken a fork");
+	ft_print_message(philo->shared, philo->id, "has taken a fork");
 	if (philo->shared->num_philos == 1)
 	{
 		pthread_mutex_unlock(&philo->shared->forks[*first]);
 		return (0);
 	}
 	pthread_mutex_lock(&philo->shared->forks[*second]);
-	print_message(philo->shared, philo->id, "has taken a fork");
+	ft_print_message(philo->shared, philo->id, "has taken a fork");
 	return (1);
 }
 
@@ -46,10 +46,10 @@ void	ft_philo_eat(t_philo *philo)
 	if (!ft_take_forks(philo, &first, &second))
 		return ;
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal_time = get_current_time();
+	philo->last_meal_time = ft_get_current_time();
 	pthread_mutex_unlock(&philo->meal_mutex);
-	print_message(philo->shared, philo->id, "is eating");
-	precise_sleep(philo->shared->time_to_eat);
+	ft_print_message(philo->shared, philo->id, "is eating");
+	ft_precise_sleep(philo->shared->time_to_eat);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
@@ -57,21 +57,21 @@ void	ft_philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->shared->forks[first]);
 }
 
-void	*philo_routine(void *arg)
+void	*ft_philo_routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		precise_sleep(50);
-	while (!check_stop(philo->shared))
+		ft_precise_sleep(50);
+	while (!ft_check_stop(philo->shared))
 	{
-		print_message(philo->shared, philo->id, "is thinking");
+		ft_print_message(philo->shared, philo->id, "is thinking");
 		ft_philo_eat(philo);
-		if (check_stop(philo->shared))
+		if (ft_check_stop(philo->shared))
 			break ;
-		print_message(philo->shared, philo->id, "is sleeping");
-		precise_sleep(philo->shared->time_to_sleep);
+		ft_print_message(philo->shared, philo->id, "is sleeping");
+		ft_precise_sleep(philo->shared->time_to_sleep);
 	}
 	return (NULL);
 }

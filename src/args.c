@@ -6,16 +6,16 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:23:57 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/14 10:51:11 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:02:03 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	set_basic_args(char **argv, t_shared *shared)
+int	ft_set_basic_args(char **argv, t_shared *shared)
 {
-	if (!is_valid_number(argv[1]) || !is_valid_number(argv[2])
-		|| !is_valid_number(argv[3]) || !is_valid_number(argv[4]))
+	if (!ft_is_valid_number(argv[1]) || !ft_is_valid_number(argv[2])
+		|| !ft_is_valid_number(argv[3]) || !ft_is_valid_number(argv[4]))
 		return (0);
 	shared->num_philos = ft_atoi(argv[1]);
 	shared->time_to_die = ft_atoi(argv[2]);
@@ -27,11 +27,11 @@ int	set_basic_args(char **argv, t_shared *shared)
 	return (1);
 }
 
-int	parse_optional_arg(int argc, char **argv, t_shared *shared)
+int	ft_parse_optional_arg(int argc, char **argv, t_shared *shared)
 {
 	if (argc == 6)
 	{
-		if (!is_valid_number(argv[5]))
+		if (!ft_is_valid_number(argv[5]))
 			return (0);
 		shared->must_eat_count = ft_atoi(argv[5]);
 		if (shared->must_eat_count <= 0)
@@ -43,7 +43,7 @@ int	parse_optional_arg(int argc, char **argv, t_shared *shared)
 	return (1);
 }
 
-int	parse_arguments(int argc, char **argv, t_shared *shared)
+int	ft_parse_arguments(int argc, char **argv, t_shared *shared)
 {
 	if (argc != 5 && argc != 6)
 	{
@@ -52,9 +52,9 @@ int	parse_arguments(int argc, char **argv, t_shared *shared)
 		printf("time_to_sleep [number_of_times_must_eat]\n");
 		return (0);
 	}
-	if (!set_basic_args(argv, shared))
+	if (!ft_set_basic_args(argv, shared))
 		return (0);
-	if (!parse_optional_arg(argc, argv, shared))
+	if (!ft_parse_optional_arg(argc, argv, shared))
 		return (0);
 	return (1);
 }

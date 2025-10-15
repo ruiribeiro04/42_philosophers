@@ -6,13 +6,13 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 02:10:41 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/12 02:10:42 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:03:04 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_shared(t_shared *shared)
+int	ft_init_shared(t_shared *shared)
 {
 	int	i;
 
@@ -37,12 +37,12 @@ int	init_shared(t_shared *shared)
 	return (1);
 }
 
-void	init_philosophers(t_shared *shared)
+void	ft_init_philosophers(t_shared *shared)
 {
 	int			i;
 	long long	current_time;
 
-	current_time = get_current_time();
+	current_time = ft_get_current_time();
 	shared->start_time = current_time;
 	i = 0;
 	while (i < shared->num_philos)

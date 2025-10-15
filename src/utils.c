@@ -6,13 +6,13 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 02:10:52 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/12 02:11:52 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:15:02 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_message(t_shared *shared, int philo_id, char *message)
+void	ft_print_message(t_shared *shared, int philo_id, char *message)
 {
 	long long	timestamp;
 
@@ -21,7 +21,7 @@ void	print_message(t_shared *shared, int philo_id, char *message)
 	{
 		pthread_mutex_unlock(&shared->stop_mutex);
 		pthread_mutex_lock(&shared->printf_mutex);
-		timestamp = get_current_time() - shared->start_time;
+		timestamp = ft_get_current_time() - shared->start_time;
 		printf("%lld %d %s\n", timestamp, philo_id, message);
 		pthread_mutex_unlock(&shared->printf_mutex);
 	}
@@ -29,7 +29,7 @@ void	print_message(t_shared *shared, int philo_id, char *message)
 		pthread_mutex_unlock(&shared->stop_mutex);
 }
 
-int	is_valid_number(const char *str)
+int	ft_is_valid_number(const char *str)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ int	is_valid_number(const char *str)
 	return (1);
 }
 
-long long	get_current_time(void)
+long long	ft_get_current_time(void)
 {
 	struct timeval	tv;
 
@@ -53,12 +53,12 @@ long long	get_current_time(void)
 	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL));
 }
 
-void	precise_sleep(int ms)
+void	ft_precise_sleep(int ms)
 {
 	long long	start_time;
 
-	start_time = get_current_time();
-	while ((get_current_time() - start_time) < ms)
+	start_time = ft_get_current_time();
+	while ((ft_get_current_time() - start_time) < ms)
 		usleep(100);
 }
 

@@ -6,13 +6,42 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 02:10:44 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/10/14 10:29:16 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:05:45 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	cleanup(t_shared *shared, pthread_t *threads)
+int	main(int argc, char **argv)
+{
+	t_shared	shared;
+	pthread_t	*threads;
+	pthread_t	monitor;
+
+	memset(&shared, 0, sizeof(t_shared));
+	if (!ft_parse_arguments(argc, argv, &shared))
+	{
+		printf("Error: Invalid arguments\n");
+		return (1);
+	}
+	if (!ft_init_shared(&shared))
+	{
+		printf("Error: Initialization failed\n");
+		return (1);
+	}
+	ft_init_philosophers(&shared);
+	if (!ft_allocate_threads(&shared, &threads))
+	{
+		ft_cleanup(&shared, NULL);
+		return (1);
+	}
+	ft_start_philosophers(&shared, threads, &monitor);
+	ft_join_philosophers(&shared, threads, monitor);
+	ft_cleanup(&shared, threads);
+	return (0);
+}
+
+void	ft_cleanup(t_shared *shared, pthread_t *threads)
 {
 	int	i;
 
@@ -28,33 +57,4 @@ void	cleanup(t_shared *shared, pthread_t *threads)
 	free(shared->forks);
 	free(shared->philos);
 	free(threads);
-}
-
-int	main(int argc, char **argv)
-{
-	t_shared	shared;
-	pthread_t	*threads;
-	pthread_t	monitor;
-
-	memset(&shared, 0, sizeof(t_shared));
-	if (!parse_arguments(argc, argv, &shared))
-	{
-		printf("Error: Invalid arguments\n");
-		return (1);
-	}
-	if (!init_shared(&shared))
-	{
-		printf("Error: Initialization failed\n");
-		return (1);
-	}
-	init_philosophers(&shared);
-	if (!allocate_threads(&shared, &threads))
-	{
-		cleanup(&shared, NULL);
-		return (1);
-	}
-	start_philosophers(&shared, threads, &monitor);
-	join_philosophers(&shared, threads, monitor);
-	cleanup(&shared, threads);
-	return (0);
 }
